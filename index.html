@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Compatibility Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:  #f7c5d0;
+      --rose:  #e8839a;
+      --deep:  #c0455e;
+      --text:  #3a1020;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f9d1db 0%, #fce4ec 40%, #f48fb1 100%);
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 28px;
+      width: min(460px, 92vw);
+      box-shadow: 0 8px 48px rgba(192,69,94,0.15), 0 2px 8px rgba(192,69,94,0.08);
+      overflow: hidden;
+    }
+
+    .screen {
+      padding: 60px 48px 52px;
+      text-align: center;
+      animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    .hidden { display: none !important; }
+
+    .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: #a06070;
+      font-weight: 300;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 20px;
+      border: 1.5px solid rgba(192,69,94,0.3);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.7);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      text-align: center;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    input::placeholder { color: #c8909f; }
+    input:focus {
+      border-color: var(--deep);
+      box-shadow: 0 0 0 3px rgba(192,69,94,0.12);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--rose), var(--deep));
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+      box-shadow: 0 4px 20px rgba(192,69,94,0.35);
+    }
+    button:hover  { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(192,69,94,0.4); }
+    button:active { transform: translateY(0); opacity: 0.88; }
+
+    .divider {
+      width: 40px;
+      height: 1.5px;
+      background: linear-gradient(90deg, var(--rose), var(--deep));
+      margin: 0 auto 28px;
+      border-radius: 999px;
+    }
+
+    .match-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--rose), var(--deep));
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      padding: 5px 16px;
+      border-radius: 999px;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+    }
+
+    #result-match img {
+      width: 100%;
+      max-height: 260px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 22px;
+      box-shadow: 0 6px 32px rgba(192,69,94,0.2);
+    }
+
+    .match-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--deep);
+      line-height: 1.5;
+    }
+
+    .nope-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .nope-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-style: italic;
+      color: var(--deep);
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <!-- SCREEN 1: Intro -->
+  <div class="screen" id="s1">
+    <p class="eyebrow">✦ for you ✦</p>
+    <h1>Compatibility<br/>Test</h1>
+    <div class="divider"></div>
+    <p class="subtitle">Finde heraus, ob wir kompatibel sind.</p>
+    <button onclick="goTo('s2')">Weiter &rarr;</button>
+  </div>
+
+  <!-- SCREEN 2: Name input -->
+  <div class="screen hidden" id="s2">
+    <p class="label">Gib bitte deinen<br/>Vornamen ein</p>
+    <input type="text" id="nameInput" placeholder="Vorname …" autocomplete="off"/>
+    <button onclick="check()">Ergebnis ansehen &rarr;</button>
+  </div>
+
+  <!-- SCREEN 3a: Match -->
+  <div class="screen hidden" id="result-match">
+    <div class="match-badge">100 % Match</div>
+    <!-- Ersetze src mit deinem Bild -->
+    <img src="Bild.jpg" alt="match"/>
+    <p class="match-text">we should definitely go out one day ✨</p>
+  </div>
+
+  <!-- SCREEN 3b: No match -->
+  <div class="screen hidden" id="result-nope">
+    <span class="nope-emoji">🚫</span>
+    <p class="nope-text">oh hell nah</p>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById('nameInput')
+    .addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+
+  function goTo(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    const target = document.getElementById(id);
+    target.classList.remove('hidden');
+    target.style.animation = 'none';
+    requestAnimationFrame(() => { target.style.animation = ''; });
+  }
+
+  function check() {
+    const val = document.getElementById('nameInput').value.trim().toLowerCase();
+    if (!val) return;
+    goTo(val === 'aurora' ? 'result-match' : 'result-nope');
+  }
+</script>
+</body>
+</html>
